@@ -1,38 +1,78 @@
 package ToDoList;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class ToDoList {
 
-	private ArrayList<String> todoItems = new ArrayList<>();
-	private ArrayList<Boolean> todoStatus = new ArrayList<>();
+	private ArrayList<String> todoItems;
+	private ArrayList<Boolean> todoStatus;
+	private Scanner sc;
 	
 	public ToDoList() {
-
+		this.todoItems = new ArrayList<>();
+		this.todoStatus = new ArrayList<>();
+		this.sc = new Scanner(System.in);
 	}
-	//할일 추가 하는 메소드, item은 메인에서 입력받는다
-	public void addItem(String item) {
-		todoItems.add(item);
-		todoStatus.add(false); // 아직 하지 않은 일이니까 false로 들어감
+	
+	public void addItem() {
+		
+		String input = null;
+		System.out.println("할일입력");
+		input = sc.nextLine();
+		todoItems.add(input);
+		todoStatus.add(false);
 		System.out.println("추가완료");
 		
-		//음 여기에서 바로 1.을 누르면 추가로 추가(?) 2.를 누르면 빠져나가기 어떻게 하지? 
+	
+		}
+		
+		public void removeItem() { 
+		
+		this.PrintAllTask();
+		int input = 0;
+		System.out.println("삭제할 아이템의 번호를 입력: ");
+		input = sc.nextInt();
+		todoItems.remove(input-1);
+		todoStatus.remove(input-1);
 		
 	}
-	//할일을 제거하는 메소드 index는 메인에서 입력받는다
-	public void removeItem(int index) { 
-		System.out.println("지울 아이템을 선택하세요");
-		todoItems.remove(index -1); // 할일을 1.~ 로 출력할 거고, 1번 할일은 0번 인덱스에 있음
-		todoStatus.remove(index -1);
+	public void changeStatus() {
+		this.PrintAllTask();
+		int input = 0; 
+		System.out.println("완료한 일을 선택 : ");
+		input = sc.nextInt();
+		todoStatus.set(input-1, true);
 	}
 	
-	public void changeStatus(int index) {
-		System.out.println("완료한 일의 번호를 선택하세요");
-		todoStatus.set(index-1, true); // 완료한일의 상태의 인텍스가 true로 바뀜
+	//전체 할일을 출력하는 메소드\
+	
+	public void printTask() {
 		
+		String input = null;
+		
+		System.out.println("1. 전체목록 ");
+		System.out.println("2. 완료한 목록");
+		System.out.println("3. 진행중인 목록");
+		System.out.println("Q : 메뉴로 돌아가기");
+	
+		input = sc.nextLine();
+		
+		if(input.equals("1")) {
+			this.PrintAllTask();
+		}else if(input.equals("2")) {
+			this.printTaskDone();
+		}else if(input.equals("3")) {
+			this.printTaskInProgress();
+		}else if(input.equals("Q")) {
+			return;
+		}else {
+			System.out.println("다시 입력하세요");
+		}
+	
+	
 	}
 	
-	//전체 할일을 출력하는 메소드
 	public void PrintAllTask() {
 		System.out.println("전체 목록");
 		for(int i = 0 ; i<todoItems.size() ; i++) {
@@ -44,7 +84,7 @@ public class ToDoList {
 		System.out.println("진행중인 목록");
 		for(int i = 0 ;i <todoStatus.size() ; i++) {
 			if(todoStatus.get(i) == false) {
-				System.out.println(todoStatus.get(i));
+				System.out.println(todoItems.get(i));
 			}
 		}
 	}
@@ -54,7 +94,7 @@ public class ToDoList {
 		System.out.println("완료한 목록");
 		for(int i = 0 ;i <todoStatus.size() ; i++) {
 			if(todoStatus.get(i)) {
-				System.out.println(todoStatus.get(i));
+				System.out.println(todoItems.get(i));
 			}
 		}
 		
